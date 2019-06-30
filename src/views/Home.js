@@ -1,15 +1,14 @@
 import React, { Component } from 'react';
 import {
   Platform,
-  TouchableHighlight,
   StyleSheet,
-  Text,
   View,
   FlatList,
   ActivityIndicator
 } from 'react-native';
 import { Pages } from '../settings/navigation';
 import { displayName as appName } from '../../app.json';
+import UserListItem from '../shared/components/UserListItem';
 
 const instructions = Platform.select({
   ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
@@ -27,6 +26,7 @@ class HomeView extends Component {
     super(props);
     this.state = { isLoading: true };
   }
+
   componentDidMount() {
     return fetch('https://randomuser.me/api/?results=500')
       .then((response) => response.json())
@@ -45,8 +45,13 @@ class HomeView extends Component {
       });
   }
 
+  _onPressItem(item) {
+    const { navigate } = this.props.navigation;
+    navigate(Pages.Detail);
+  }
+
   render() {
-    const { navigate } = this.props.navigation
+
     if (this.state.isLoading) {
       return (
         <View style={{ flex: 1, padding: 20 }}>
@@ -59,15 +64,10 @@ class HomeView extends Component {
       <View style={styles.container}>
         <FlatList
           data={this.state.dataSource}
-          renderItem={({ item }) => <Text>{item.email}</Text>}
+          renderItem={({ item }) => <UserListItem onPressItem={() => this._onPressItem(item)} item={item}></UserListItem>}
           keyExtractor={({ login }, index) => login.uuid}
         />
-        <TouchableHighlight
-          onPress={() => navigate(Pages.Detail)}
-          style={styles.button}>
-          <Text
-            style={styles.buttonText}>Screen One</Text>
-        </TouchableHighlight>
+
       </View>
     );
   }
@@ -76,8 +76,6 @@ class HomeView extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // justifyContent: 'center',
-    // alignItems: 'center',
     backgroundColor: '#F5FCFF',
   },
   welcome: {
