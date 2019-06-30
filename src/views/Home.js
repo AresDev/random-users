@@ -45,9 +45,9 @@ class HomeView extends Component {
       });
   }
 
-  _onPressItem(item) {
+  _onPressItem(userDetail) {
     const { navigate } = this.props.navigation;
-    navigate(Pages.Detail);
+    navigate(Pages.Detail, { userDetail });
   }
 
   render() {

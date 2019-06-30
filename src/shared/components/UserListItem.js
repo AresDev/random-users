@@ -21,7 +21,7 @@ class UserListItem extends Component {
         <View style={styles.container}>
           <Image
             style={styles.userImage}
-            source={{ uri: picture.thumbnail }} />
+            source={{ uri: picture.medium }} />
           <View style={styles.userInfoContainer}>
             <Text style={styles.name}>{name.first} {name.last}</Text>
             <Text style={styles.email}>{email}</Text>
