@@ -2,7 +2,7 @@
   package="com.firstapp">
 
     <uses-permission android:name="android.permission.INTERNET" />
-
+    <uses-permission android:name="android.permission.CAMERA" />
     <application
       android:name=".MainApplication"
       android:label="@string/app_name"
@@ -23,7 +23,7 @@
       <activity android:name="com.facebook.react.devsupport.DevSettingsActivity" />
       <meta-data
      android:name="com.google.android.geo.API_KEY"
-     android:value="AIzaSyA5yb5h05m4npyJyhoAUk5AE7h1G34yIa4"/>
+     android:value="AIzaSyBzp3I1ANFqYoWMV6ChxgI98brQcn06IeY"/>
     </application>
 
 </manifest>
