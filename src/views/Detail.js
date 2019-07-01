@@ -3,9 +3,11 @@ import {
   StyleSheet,
   Text,
   View,
-  Image
+  Image,
+  ScrollView,
 } from 'react-native';
 import UserLocation from '../shared/components/UserLocation';
+import DetailListItem from '../shared/components/DetailListItem';
 
 class DetailView extends Component {
   static navigationOptions = ({ navigation }) => {
@@ -24,11 +26,27 @@ class DetailView extends Component {
     const { navigation } = this.props;
     const userDetail = navigation.getParam('userDetail', null);
     return (
+     
       <View style={styles.container}>
         <Image style={styles.userImage}
           source={{ uri: userDetail.picture.large }} />
-        <Text style={styles.welcome}>{userDetail.email}</Text>
-        <UserLocation style={styles.map} user={userDetail}></UserLocation>
+         <ScrollView>
+          <DetailListItem title='Email'>
+            <Text style={styles.detailText}>{userDetail.email}</Text>
+          </DetailListItem>
+          <DetailListItem title='Gender'>
+            <Text style={styles.detailText}>{userDetail.gender}</Text>
+          </DetailListItem>
+          <DetailListItem title='Phone'>
+            <Text style={styles.detailText}>{userDetail.phone}</Text>
+          </DetailListItem>
+          <DetailListItem title='Cellphone'>
+            <Text style={styles.detailText}>{userDetail.cell}</Text>
+          </DetailListItem>
+          <DetailListItem title='Location'>
+            <UserLocation style={styles.map} user={userDetail}></UserLocation>
+          </DetailListItem>
+        </ScrollView>
       </View>
     );
   }
@@ -38,20 +56,16 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: "column",
-    // justifyContent: 'center',
-    //alignItems: 'center',
     backgroundColor: '#F5FCFF',
+    margin:10
   },
   userImage: {
     flex: 1.5,
     resizeMode: "stretch",
     width: null, height: null
   },
-  welcome: {
-    flex: 1,
+  detailText: {
     fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
   },
   map: {
     flex: 1

@@ -5,6 +5,7 @@ import {
   StyleSheet
 } from 'react-native';
 import MapView from 'react-native-maps';
+import DetailListItem from './DetailListItem';
 
 class UserLocation extends Component {
 
@@ -19,17 +20,24 @@ class UserLocation extends Component {
       latitude: userDetail.location.coordinates.latitude,
       longitude: userDetail.location.coordinates.longitude
     };
+
+    const initialRegion={
+      latitude: Number(userDetail.location.coordinates.latitude),
+      longitude: Number(userDetail.location.coordinates.longitude),
+      latitudeDelta: 0.0922,
+      longitudeDelta: 0.0421,
+    }
+
     return (
-      <View style={styles.container}>
-        <MapView style={styles.map}
-          initialRegion={{
-            latitude: 37.78825,
-            longitude: -122.4324,
-            latitudeDelta: 0.0922,
-            longitudeDelta: 0.0421,
-          }}
-        />
-        <Text>{`${userDetail.location.city}, ${userDetail.location.state}`}</Text>
+        <View style={styles.mapContainer}>
+          <MapView style={styles.map}
+            initialRegion={initialRegion}
+          />
+          <View style={styles.countryContainer}>
+            <Text style={styles.country}>{ userDetail.location.postcode}</Text>
+            <Text style={styles.country}>{ userDetail.location.street}</Text>
+            <Text style={styles.country}>{`${userDetail.location.city}, ${userDetail.location.state}`}</Text>
+          </View>
       </View>
     );
   }
@@ -37,18 +45,27 @@ class UserLocation extends Component {
 
 
 const styles = StyleSheet.create({
-  container: {
+  mapContainer: {
     flex: 1,
-    flexDirection: "column",
-    width: 200,
-    height: 200
+    flexDirection: "row",
+    alignItems: "flex-start",
   },
   map: {
     flex: 1,
-    width: 200,
-    height: 200
+    width: 100,
+    height: 100
+  },
+  countryContainer: {
+    marginLeft: 10,
+    flex: 2
+  },
+  country: {
+    marginLeft: 10,
+    fontSize: 18
+  },
+  location: {
+    fontSize: 22,
   }
-
 });
 
 
