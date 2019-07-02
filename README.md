@@ -1,6 +1,6 @@
 # Random Users App
 
-This is an app that shows how React Native works and for understanding main concepts of React Native develpment.
+This repository contains the source code of an app that shows how React Native performs, and it useful to understand main concepts of React Native development as:
 
 1. Creating components.
 2. Use of some external plugins like:
@@ -19,16 +19,10 @@ This is an app that shows how React Native works and for understanding main conc
 
 6. Use of flexbox to Layout components.
 
-7. Using flatlist component to render a list of users.
-
-8. Paginating data from list.
+7. Using Flatlist component to render a list of users.
 
 9. Fetch data from external API.
 
-10. Use image component to show user's Avatars.
+8. Paginating data from the API.
 
-Here I'm also making use of some ES6 API features like:
-
-async/await from promises
-arrow functions
-rest/spread operators
+10. Use Image component to show user's Avatars.
