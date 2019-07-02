@@ -16,23 +16,23 @@ class UserLocation extends Component {
 
   render() {
     const userDetail = this.props.user;
-    const userLocation = {
-      latitude: userDetail.location.coordinates.latitude,
-      longitude: userDetail.location.coordinates.longitude
-    };
-
     const initialRegion={
       latitude: Number(userDetail.location.coordinates.latitude),
       longitude: Number(userDetail.location.coordinates.longitude),
-      latitudeDelta: 0.0922,
-      longitudeDelta: 0.0421,
+      latitudeDelta: 0.015*5,
+      longitudeDelta: 0.0121*5,
     }
 
     return (
         <View style={styles.mapContainer}>
           <MapView style={styles.map}
             initialRegion={initialRegion}
-          />
+            >
+            <MapView.Marker
+                coordinate={{latitude: initialRegion.latitude,
+                longitude: initialRegion.longitude}}
+             />
+          </MapView>
           <View style={styles.countryContainer}>
             <Text style={styles.country}>{ userDetail.location.postcode}</Text>
             <Text style={styles.country}>{ userDetail.location.street}</Text>
