@@ -24,25 +24,52 @@ class HomeView extends Component {
 
   constructor(props) {
     super(props);
-    this.state = { isLoading: true };
+    this.state = { 
+      seed: 1,
+      page: 1,
+      users: [],
+      isLoading: false,
+      isRefreshing: false,
+     };
   }
 
-  componentDidMount() {
-    return fetch('https://randomuser.me/api/?results=500')
-      .then((response) => response.json())
-      .then((responseJson) => {
-
+  async loadUsers(){
+    const { users, seed, page } = this.state;
+    this.setState({ isLoading: true });
+    try {
+      let response = await fetch(`https://randomuser.me/api/?seed=${seed}&page=${page}&results=20`);
+      let data = await response.json();
+      if(data){
         this.setState({
-          isLoading: false,
-          dataSource: responseJson.results,
-        }, function () {
-
+          users: page === 1 ? data.results : [...users, ...data.results],
+          isRefreshing: false,
+          isLoading: false
         });
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+  handleRefresh = () => {
+    this.setState({
+      seed: this.state.seed + 1,
+      isRefreshing: true,
+    }, () => {
+      this.loadUsers();
+    });
+  };
+
+  handleLoadMore = () => {
+    this.setState({
+      page: this.state.page + 1
+    }, () => {
+      this.loadUsers();
+    });
+  };
+
+  componentDidMount() {
+    this.loadUsers();
   }
 
   _onPressItem(userDetail) {
@@ -51,8 +78,9 @@ class HomeView extends Component {
   }
 
   render() {
+    const { users, isLoading, isRefreshing } = this.state;
 
-    if (this.state.isLoading) {
+    if (!users && isLoading) {
       return (
         <View style={{ flex: 1, padding: 20 }}>
           <ActivityIndicator />
@@ -63,9 +91,12 @@ class HomeView extends Component {
     return (
       <View style={styles.container}>
         <FlatList
-          data={this.state.dataSource}
+          data={users}
           renderItem={({ item }) => <UserListItem onPressItem={() => this._onPressItem(item)} item={item}></UserListItem>}
           keyExtractor={({ login }, index) => login.uuid}
+          refreshing={isRefreshing}
+          onEndReached={this.handleLoadMore}
+          onEndThreshold={0.5}
         />
 
       </View>
